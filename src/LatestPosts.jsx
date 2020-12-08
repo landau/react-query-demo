@@ -11,7 +11,7 @@ const Post = ({ title, body }) => {
           {/* <strong className="d-inline-block mb-2 text-primary">World</strong> */}
           <h3 className="mb-0">{title}</h3>
           <div className="mb-1 text-muted">Nov 12</div>
-          <p className="card-text mb-auto">{body}</p>
+          <p className="card-text mb-auto blog-post-body">{body}</p>
           <a href="#" className="stretched-link">
             Continue reading
           </a>

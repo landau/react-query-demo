@@ -10,7 +10,7 @@ const Post = ({ title, body }) => {
         January 1, 2014 by <a href="#">Mark</a>
       </p>
 
-      <p> {body} </p>
+      <p className="blog-post-body">{body}</p>
     </div>
   );
 };

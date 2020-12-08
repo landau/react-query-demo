@@ -22238,7 +22238,9 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
       className: "blog-post-meta"
     }, "January 1, 2014 by ", /* @__PURE__ */ react8.default.createElement("a", {
       href: "#"
-    }, "Mark")), /* @__PURE__ */ react8.default.createElement("p", null, " ", body, " "));
+    }, "Mark")), /* @__PURE__ */ react8.default.createElement("p", {
+      className: "blog-post-body"
+    }, body));
   };
   var Posts = () => {
     useQueryCache();
@@ -22386,7 +22388,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     }, title), /* @__PURE__ */ react12.default.createElement("div", {
       className: "mb-1 text-muted"
     }, "Nov 12"), /* @__PURE__ */ react12.default.createElement("p", {
-      className: "card-text mb-auto"
+      className: "card-text mb-auto blog-post-body"
     }, body), /* @__PURE__ */ react12.default.createElement("a", {
       href: "#",
       className: "stretched-link"
