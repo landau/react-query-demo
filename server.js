@@ -11,7 +11,7 @@ const createDB = (seedPosts = []) => {
   return {
     createPost({ title, body }) {
       const post = createPost({ title, body });
-      posts.push(post);
+      posts.unshift(post);
       return post;
     },
 
