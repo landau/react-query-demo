@@ -15,7 +15,7 @@ const Sidebar = () => {
   useQueryCache();
 
   const { data: posts, isLoading, error, status } = useQuery(
-    ["posts", { count: 0 }],
+    "posts",
     async () => {
       const { data } = await fetchByQuery(`
       query {

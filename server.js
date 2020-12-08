@@ -34,7 +34,7 @@ const schema = buildSchema(`
 
   type Query {
     post(id: ID!): Post
-    posts: [Post]!
+    posts(limit: Int = 5): [Post]!
   }
 
   input CreatePost {
@@ -54,8 +54,8 @@ const resolvers = {
     return db.findOne(id);
   },
 
-  posts() {
-    return db.findAll();
+  posts({ limit }) {
+    return db.findAll().slice(0, limit);
   },
 
   createPost({ input: { title, body } }) {

@@ -43,15 +43,15 @@ const LatestPosts = () => {
   useQueryCache();
 
   const { data: posts, isLoading, error } = useQuery(
-    ["posts", { count: 2 }],
-    async () => {
+    ["posts", { limit: 2 }],
+    async (_, { limit }) => {
       const { data } = await fetchByQuery(`
       query {
-        posts { id title, body }
+        posts(limit: ${limit}) { id title, body }
       }
     `);
 
-      return data.posts.slice(0, 2);
+      return data.posts;
     }
   );
 

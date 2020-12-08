@@ -22242,7 +22242,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var Posts = () => {
     useQueryCache();
-    const {data: posts, isLoading, error, status} = useQuery(["posts", {count: 0}], async () => {
+    const {data: posts, isLoading, error, status} = useQuery("posts", async () => {
       const {data} = await fetchByQuery(`
       query {
         posts { id title body }
@@ -22282,7 +22282,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     `, {input: {title: title2, body: body2}});
       return data.createPost;
     }, {
-      onSuccess: () => {
+      onSuccess: (post) => {
+        {
+        }
+        {
+        }
         queryCache4.invalidateQueries("posts");
       }
     });
@@ -22335,7 +22339,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var Sidebar = () => {
     useQueryCache();
-    const {data: posts, isLoading, error, status} = useQuery(["posts", {count: 0}], async () => {
+    const {data: posts, isLoading, error, status} = useQuery("posts", async () => {
       const {data} = await fetchByQuery(`
       query {
         posts { id title }
@@ -22410,13 +22414,13 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var LatestPosts = () => {
     useQueryCache();
-    const {data: posts, isLoading, error} = useQuery(["posts", {count: 2}], async () => {
+    const {data: posts, isLoading, error} = useQuery(["posts", {limit: 2}], async (_, {limit}) => {
       const {data} = await fetchByQuery(`
       query {
-        posts { id title, body }
+        posts(limit: ${limit}) { id title, body }
       }
     `);
-      return data.posts.slice(0, 2);
+      return data.posts;
     });
     if (isLoading) {
       return "Loading...";
