@@ -64,6 +64,7 @@ const resolvers = {
 };
 
 const app = express();
+
 app.use(
   "/graphql",
   graphqlHTTP({
@@ -73,16 +74,20 @@ app.use(
   })
 );
 
-(async () => {
-  const PORT = 4000;
+app.use(express.static("public"));
 
+const createServer = async (port = 4000) => {
   const server = await new Promise((resolve, reject) => {
-    const server = app.listen(PORT, (err) =>
+    const server = app.listen(port, (err) =>
       err ? reject(err) : resolve(server)
     );
   });
 
   console.log(
-    `Running a GraphQL API server at http://localhost:${PORT}/graphql`
+    `Running a GraphQL API server at http://localhost:${port}/graphql`
   );
-})();
+
+  return server;
+};
+
+module.exports = { createServer };
