@@ -14,15 +14,18 @@ const PostForm = () => {
       const { data } = await fetchByQuery(
         `
       mutation CreatePost($input: CreatePost!) {
-        createPost(input: $input) { id }
+        createPost(input: $input) { id, title, body }
       }
     `,
         { input: { title, body } }
       );
-
-      return data;
+      return data.createPost;
     },
-    { onSuccess: () => queryCache.invalidateQueries("posts") }
+    {
+      onSuccess: () => {
+        queryCache.invalidateQueries("posts");
+      },
+    }
   );
 
   const createPost = async (e) => {

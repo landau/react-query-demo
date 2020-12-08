@@ -2636,11 +2636,11 @@
     if (true) {
       (function() {
         "use strict";
-        var React13 = require_react();
+        var React14 = require_react();
         var _assign = require_object_assign();
         var Scheduler = require_scheduler();
         var tracing = require_tracing();
-        var ReactSharedInternals = React13.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React14.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function warn(format) {
           {
             for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -2672,7 +2672,7 @@
             Function.prototype.apply.call(console[level], console, argsWithFormat);
           }
         }
-        if (!React13) {
+        if (!React14) {
           {
             throw Error("ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.");
           }
@@ -3888,7 +3888,7 @@
         var didWarnInvalidChild = false;
         function flattenChildren(children) {
           var content = "";
-          React13.Children.forEach(children, function(child) {
+          React14.Children.forEach(children, function(child) {
             if (child == null) {
               return;
             }
@@ -3899,7 +3899,7 @@
         function validateProps(element, props) {
           {
             if (typeof props.children === "object" && props.children !== null) {
-              React13.Children.forEach(props.children, function(child) {
+              React14.Children.forEach(props.children, function(child) {
                 if (child == null) {
                   return;
                 }
@@ -11105,7 +11105,7 @@
         }
         var fakeInternalInstance = {};
         var isArray = Array.isArray;
-        var emptyRefsObject = new React13.Component().refs;
+        var emptyRefsObject = new React14.Component().refs;
         var didWarnAboutStateAssignmentForComponent;
         var didWarnAboutUninitializedState;
         var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -20626,11 +20626,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   });
 
   // src/index.jsx
-  var react13 = __toModule(require_react());
+  var react14 = __toModule(require_react());
   var react_dom2 = __toModule(require_react_dom());
 
   // src/App.jsx
-  var react12 = __toModule(require_react());
+  var react13 = __toModule(require_react());
 
   // src/Posts.jsx
   var react8 = __toModule(require_react());
@@ -22242,7 +22242,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var Posts = () => {
     useQueryCache();
-    const {data: posts, isLoading, error, status} = useQuery("posts", async () => {
+    const {data: posts, isLoading, error, status} = useQuery(["posts", {count: 0}], async () => {
       const {data} = await fetchByQuery(`
       query {
         posts { id title body }
@@ -22277,11 +22277,15 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     const [mutate] = useMutation(async ({title: title2, body: body2}) => {
       const {data} = await fetchByQuery(`
       mutation CreatePost($input: CreatePost!) {
-        createPost(input: $input) { id }
+        createPost(input: $input) { id, title, body }
       }
     `, {input: {title: title2, body: body2}});
-      return data;
-    }, {onSuccess: () => queryCache4.invalidateQueries("posts")});
+      return data.createPost;
+    }, {
+      onSuccess: () => {
+        queryCache4.invalidateQueries("posts");
+      }
+    });
     const createPost = async (e) => {
       e.preventDefault();
       await mutate({title, body});
@@ -22331,7 +22335,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var Sidebar = () => {
     useQueryCache();
-    const {data: posts, isLoading, error, status} = useQuery("posts", async () => {
+    const {data: posts, isLoading, error, status} = useQuery(["posts", {count: 0}], async () => {
       const {data} = await fetchByQuery(`
       query {
         posts { id title }
@@ -22364,135 +22368,125 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var Sidebar_default = Sidebar;
 
-  // src/App.jsx
-  var App = () => {
+  // src/LatestPosts.jsx
+  var react12 = __toModule(require_react());
+  var Post3 = ({title, body}) => {
     return /* @__PURE__ */ react12.default.createElement("div", {
-      className: "App"
+      className: "col-md-6"
     }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "container"
-    }, /* @__PURE__ */ react12.default.createElement("header", {
-      className: "blog-header py-3"
+      className: "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
     }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "row flex-nowrap justify-content-between align-items-center"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-4 pt-1"
-    }, /* @__PURE__ */ react12.default.createElement("a", {
-      className: "text-muted",
-      href: "#"
-    })), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-4 text-center"
-    }, /* @__PURE__ */ react12.default.createElement("a", {
-      className: "blog-header-logo text-dark",
-      href: "#"
-    }, "React Query Blog")), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-4 d-flex justify-content-end align-items-center"
-    }))), /* @__PURE__ */ react12.default.createElement("div", {
+      className: "col p-4 d-flex flex-column position-static"
+    }, /* @__PURE__ */ react12.default.createElement("h3", {
+      className: "mb-0"
+    }, title), /* @__PURE__ */ react12.default.createElement("div", {
+      className: "mb-1 text-muted"
+    }, "Nov 12"), /* @__PURE__ */ react12.default.createElement("p", {
+      className: "card-text mb-auto"
+    }, body), /* @__PURE__ */ react12.default.createElement("a", {
+      href: "#",
+      className: "stretched-link"
+    }, "Continue reading")), /* @__PURE__ */ react12.default.createElement("div", {
+      className: "col-auto d-none d-lg-block"
+    }, /* @__PURE__ */ react12.default.createElement("svg", {
+      className: "bd-placeholder-img",
+      width: "200",
+      height: "250",
+      xmlns: "http://www.w3.org/2000/svg",
+      preserveAspectRatio: "xMidYMid slice",
+      focusable: "false",
+      role: "img",
+      "aria-label": "Placeholder: Thumbnail"
+    }, /* @__PURE__ */ react12.default.createElement("title", null, "Placeholder"), /* @__PURE__ */ react12.default.createElement("rect", {
+      width: "100%",
+      height: "100%",
+      fill: "#55595c"
+    }), /* @__PURE__ */ react12.default.createElement("text", {
+      x: "50%",
+      y: "50%",
+      fill: "#eceeef",
+      dy: ".3em"
+    }, "Thumbnail")))));
+  };
+  var LatestPosts = () => {
+    useQueryCache();
+    const {data: posts, isLoading, error} = useQuery(["posts", {count: 2}], async () => {
+      const {data} = await fetchByQuery(`
+      query {
+        posts { id title, body }
+      }
+    `);
+      return data.posts.slice(0, 2);
+    });
+    if (isLoading) {
+      return "Loading...";
+    }
+    if (error) {
+      return `An error occurred when fetching posts: ${error.message}`;
+    }
+    return /* @__PURE__ */ react12.default.createElement("div", null, /* @__PURE__ */ react12.default.createElement("div", {
       className: "nav-scroller py-1 mb-2"
     }, /* @__PURE__ */ react12.default.createElement("nav", {
       className: "nav d-flex justify-content-between"
     }, /* @__PURE__ */ react12.default.createElement("a", {
       className: "p-2 text-muted",
       href: "#posts"
-    }, "Posts"))), /* @__PURE__ */ react12.default.createElement("div", {
+    }, "Latest posts"))), /* @__PURE__ */ react12.default.createElement("div", {
       className: "row mb-2"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-md-6"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col p-4 d-flex flex-column position-static"
-    }, /* @__PURE__ */ react12.default.createElement("strong", {
-      className: "d-inline-block mb-2 text-primary"
-    }, "World"), /* @__PURE__ */ react12.default.createElement("h3", {
-      className: "mb-0"
-    }, "Featured post"), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "mb-1 text-muted"
-    }, "Nov 12"), /* @__PURE__ */ react12.default.createElement("p", {
-      className: "card-text mb-auto"
-    }, "This is a wider card with supporting text below as a natural lead-in to additional content."), /* @__PURE__ */ react12.default.createElement("a", {
-      href: "#",
-      className: "stretched-link"
-    }, "Continue reading")), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-auto d-none d-lg-block"
-    }, /* @__PURE__ */ react12.default.createElement("svg", {
-      className: "bd-placeholder-img",
-      width: "200",
-      height: "250",
-      xmlns: "http://www.w3.org/2000/svg",
-      preserveAspectRatio: "xMidYMid slice",
-      focusable: "false",
-      role: "img",
-      "aria-label": "Placeholder: Thumbnail"
-    }, /* @__PURE__ */ react12.default.createElement("title", null, "Placeholder"), /* @__PURE__ */ react12.default.createElement("rect", {
-      width: "100%",
-      height: "100%",
-      fill: "#55595c"
-    }), /* @__PURE__ */ react12.default.createElement("text", {
-      x: "50%",
-      y: "50%",
-      fill: "#eceeef",
-      dy: ".3em"
-    }, "Thumbnail"))))), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-md-6"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col p-4 d-flex flex-column position-static"
-    }, /* @__PURE__ */ react12.default.createElement("strong", {
-      className: "d-inline-block mb-2 text-success"
-    }, "Design"), /* @__PURE__ */ react12.default.createElement("h3", {
-      className: "mb-0"
-    }, "Post title"), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "mb-1 text-muted"
-    }, "Nov 11"), /* @__PURE__ */ react12.default.createElement("p", {
-      className: "mb-auto"
-    }, "This is a wider card with supporting text below as a natural lead-in to additional content."), /* @__PURE__ */ react12.default.createElement("a", {
-      href: "#",
-      className: "stretched-link"
-    }, "Continue reading")), /* @__PURE__ */ react12.default.createElement("div", {
-      className: "col-auto d-none d-lg-block"
-    }, /* @__PURE__ */ react12.default.createElement("svg", {
-      className: "bd-placeholder-img",
-      width: "200",
-      height: "250",
-      xmlns: "http://www.w3.org/2000/svg",
-      preserveAspectRatio: "xMidYMid slice",
-      focusable: "false",
-      role: "img",
-      "aria-label": "Placeholder: Thumbnail"
-    }, /* @__PURE__ */ react12.default.createElement("title", null, "Placeholder"), /* @__PURE__ */ react12.default.createElement("rect", {
-      width: "100%",
-      height: "100%",
-      fill: "#55595c"
-    }), /* @__PURE__ */ react12.default.createElement("text", {
-      x: "50%",
-      y: "50%",
-      fill: "#eceeef",
-      dy: ".3em"
-    }, "Thumbnail"))))))), /* @__PURE__ */ react12.default.createElement("main", {
+    }, posts.map(({id, title, body}) => /* @__PURE__ */ react12.default.createElement(Post3, {
+      key: id,
+      title,
+      body
+    }))));
+  };
+  var LatestPosts_default = LatestPosts;
+
+  // src/App.jsx
+  var App = () => {
+    return /* @__PURE__ */ react13.default.createElement("div", {
+      className: "App"
+    }, /* @__PURE__ */ react13.default.createElement("div", {
+      className: "container"
+    }, /* @__PURE__ */ react13.default.createElement("header", {
+      className: "blog-header py-3"
+    }, /* @__PURE__ */ react13.default.createElement("div", {
+      className: "row flex-nowrap justify-content-between align-items-center"
+    }, /* @__PURE__ */ react13.default.createElement("div", {
+      className: "col-4 pt-1"
+    }, /* @__PURE__ */ react13.default.createElement("a", {
+      className: "text-muted",
+      href: "#"
+    })), /* @__PURE__ */ react13.default.createElement("div", {
+      className: "col-4 text-center"
+    }, /* @__PURE__ */ react13.default.createElement("a", {
+      className: "blog-header-logo text-dark",
+      href: "#"
+    }, "React Query Blog")), /* @__PURE__ */ react13.default.createElement("div", {
+      className: "col-4 d-flex justify-content-end align-items-center"
+    }))), /* @__PURE__ */ react13.default.createElement(LatestPosts_default, null)), /* @__PURE__ */ react13.default.createElement("main", {
       role: "main",
       className: "container"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
+    }, /* @__PURE__ */ react13.default.createElement("div", {
       className: "row"
-    }, /* @__PURE__ */ react12.default.createElement("div", {
+    }, /* @__PURE__ */ react13.default.createElement("div", {
       className: "col-md-8 blog-main"
-    }, /* @__PURE__ */ react12.default.createElement("h3", {
+    }, /* @__PURE__ */ react13.default.createElement("h3", {
       className: "pb-4 mb-4 font-italic border-bottom"
-    }, "From the Firehose"), /* @__PURE__ */ react12.default.createElement(Posts_default, null), /* @__PURE__ */ react12.default.createElement("nav", {
+    }, "From the Firehose"), /* @__PURE__ */ react13.default.createElement(Posts_default, null), /* @__PURE__ */ react13.default.createElement("nav", {
       className: "blog-pagination"
-    }, /* @__PURE__ */ react12.default.createElement("a", {
+    }, /* @__PURE__ */ react13.default.createElement("a", {
       className: "btn btn-outline-primary",
       href: "#"
-    }, "Older"), /* @__PURE__ */ react12.default.createElement("a", {
+    }, "Older"), /* @__PURE__ */ react13.default.createElement("a", {
       className: "btn btn-outline-secondary disabled",
       href: "#",
       tabIndex: "-1",
       "aria-disabled": "true"
-    }, "Newer"))), /* @__PURE__ */ react12.default.createElement(Sidebar_default, null))));
+    }, "Newer"))), /* @__PURE__ */ react13.default.createElement(Sidebar_default, null))));
   };
   var App_default = App;
 
   // src/index.jsx
-  react_dom2.default.render(/* @__PURE__ */ react13.default.createElement(react13.default.StrictMode, null, /* @__PURE__ */ react13.default.createElement(App_default, null)), document.getElementById("root"));
+  react_dom2.default.render(/* @__PURE__ */ react14.default.createElement(react14.default.StrictMode, null, /* @__PURE__ */ react14.default.createElement(App_default, null)), document.getElementById("root"));
 })();
 //# sourceMappingURL=index.js.map
